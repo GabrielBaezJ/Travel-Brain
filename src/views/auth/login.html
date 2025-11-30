@@ -32,8 +32,12 @@
 
         <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
 
-        <div id="buttonDiv"></div>
+        <!-- Info: Google Sign-In temporalmente deshabilitado -->
+        <div style="margin: 1.5rem 0; padding: 0.75rem; background: #e3f2fd; border-left: 3px solid #2196f3; border-radius: 4px; font-size: 0.875rem; color: #1565c0;">
+          <strong>ℹ️ Nota:</strong> Google Sign-In está temporalmente deshabilitado. Usa el formulario de login tradicional.
+        </div>
 
+        <div id="buttonDiv"></div>
         <div class="divider"><span></span></div>
 
         <!-- Navega a la ruta limpia que sirve register.html -->
@@ -61,23 +65,25 @@
   <script src="/assets/js/auth-login.js"></script>
   <script>
   function handleCredentialResponse(response) {
-    // Esta función se ejecuta cuando el usuario se loguea correctamente
     console.log("Token recibido de Google:", response.credential);
+    // Aquí deberías enviar el token a tu backend para validarlo
   }
 
   window.onload = function () {
-    google.accounts.id.initialize({
-      client_id: "713160370468-sb3jjg16idaaakn3n6fe870nu6cn2h4b.apps.googleusercontent.com",
-      callback: handleCredentialResponse
-    });
+    if (typeof google !== 'undefined' && google.accounts) {
+      google.accounts.id.initialize({
+        client_id: "713160370468-sb3jjg16idaaakn3n6fe870nu6cn2h4b.apps.googleusercontent.com",
+        callback: handleCredentialResponse
+      });
 
-    google.accounts.id.renderButton(
-      document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large" }  // Puedes cambiar el estilo aquí
-    );
+      google.accounts.id.renderButton(
+        document.getElementById("buttonDiv"),
+        { theme: "outline", size: "large" }
+      );
 
-    google.accounts.id.prompt(); // Muestra también el aviso flotante (One Tap)
+      google.accounts.id.prompt();
+    }
   }
-</script>
+  </script>
 </body>
 </html>
